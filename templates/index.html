@@ -7,32 +7,19 @@
     <h1>Book List</h1>
     <ul></ul>
 
+{% endblock %}
 
-
-    <form class="form" action="" method="post">
-        <p>
-            {{form.email.label}} <br>
-            {{form.email(size=30)}}
-        </p>
-
-        <p>
-            {{form.first_name.label}} <br>
-            {{form.first_name(size=30)}}
-        </p>
-
-        <p>
-            {{form.last_name.label}} <br>
-            {{form.last_name(size=30)}}
-        </p>
-
-
-        <p>
-            {{form.password.label}} <br>
-            {{form.password(size=30)}}
-        </p>
-
-        <p>{{form.submit()}}</p>
-        
-
-    </form>
+{% block content %}
+<table border="1">
+    {% for key,value in result.items()%}
+    <tr>
+        <th>
+            {{key}}
+        </th>
+        <td>
+            {{value}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

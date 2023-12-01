@@ -40,7 +40,11 @@ class connector:
         dbm.add_to_table(user["email"], user["name"], user["user_id"])
         return "User Successfully Created", 201
 
-    @app.route("/signup")
+    @app.route("/signup", methods=["GET", "POST"])
     def signup():
         su = Sign_up()
+        if su.is_submitted():
+            result = request.form
+            print(su.email.data)
+            return render_template("index.html", result=result)
         return render_template("signup.html", form=su)
