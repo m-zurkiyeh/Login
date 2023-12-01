@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+    So this must be the index html lol
+    <h1>Book List</h1>
+    <ul></ul>
+
+
+
+    <form class="form" action="" method="post">
+        <p>
+            {{form.email.label}} <br>
+            {{form.email(size=30)}}
+        </p>
+
+        <p>
+            {{form.first_name.label}} <br>
+            {{form.first_name(size=30)}}
+        </p>
+
+        <p>
+            {{form.last_name.label}} <br>
+            {{form.last_name(size=30)}}
+        </p>
+
+
+        <p>
+            {{form.password.label}} <br>
+            {{form.password(size=30)}}
+        </p>
+
+        <p>{{form.submit()}}</p>
+        
+
+    </form>
+{% endblock %}
