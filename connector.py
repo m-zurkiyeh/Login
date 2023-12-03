@@ -20,8 +20,15 @@ books = [
 
 class connector:
     def __init__(self):
+        """
+        sumary_line
+
+        Keyword arguments:
+        self -- the class's current instance
+
+        """
+
         app.run(debug=True, use_reloader=True)
-        pass
 
     @app.route("/get-users")
     def get_users():
@@ -37,7 +44,7 @@ class connector:
     def create_user():
         user = request.get_json()
         print(user["email"])
-        dbm.add_to_table(user["email"], user["name"], user["user_id"])
+        dbm.add_to_table(user["email"], user["fname"], user["lname"], user["password"])
         return "User Successfully Created", 201
 
     @app.route("/signup", methods=["GET", "POST"])
@@ -45,6 +52,12 @@ class connector:
         su = Sign_up()
         if su.is_submitted():
             result = request.form
-            print(su.email.data)
-            return render_template("index.html", result=result)
+            print()
+            return render_template("list.html", result=result)
+            # return redirect(url_for("list.html", result=result))
         return render_template("signup.html", form=su)
+
+    @app.route("/")
+    def index():
+        print("hello")
+        return render_template("index.html")
