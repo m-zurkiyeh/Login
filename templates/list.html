@@ -15,12 +15,12 @@ So this must be the index html lol
 <table border="1">
     {% for key,value in result.items()%}
     <tr>
-        {% if key != "submit" and value != "Submit" %}
+        {% if key != "submit" and value != "Submit" and key != "password" and value != "Password"%}
     <tr>
         <th>{{ key }}</th>
         <td>{{ value }}</td>
     </tr>
-    {% endif %}
+        {% endif %}
     </tr>
     {% endfor %}
 </table>

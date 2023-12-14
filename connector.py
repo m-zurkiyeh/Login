@@ -1,8 +1,15 @@
 import json
-from flask import Flask, request, jsonify, redirect, url_for, render_template
+from flask import (
+    Flask,
+    request,
+    jsonify,
+    redirect,
+    url_for,
+    render_template,
+    flash,
+)
 from db_manager import db_manager
 from forms import Sign_up
-from flask_socketio import SocketIO
 
 
 app = Flask(__name__)
@@ -10,21 +17,13 @@ app.config["SECRET_KEY"] = "qwertyuiop"
 dbm = db_manager()
 
 
-# Sample data
-books = [
-    {"title": "The Great Gatsby", "author": "F. Scott Fitzgerald"},
-    {"title": "To Kill a Mockingbird", "author": "Harper Lee"},
-    {"title": "1984", "author": "George Orwell"},
-]
-
-
 class connector:
     def __init__(self):
         """
-        sumary_line
+        Runs the flask application on call
 
         Keyword arguments:
-        self -- the class's current instance
+        self -- the class's own instance
 
         """
 
@@ -50,14 +49,31 @@ class connector:
     @app.route("/signup", methods=["GET", "POST"])
     def signup():
         su = Sign_up()
+        message = ""
         if su.is_submitted():
             result = request.form
-            print()
-            return render_template("list.html", result=result)
-            # return redirect(url_for("list.html", result=result))
+            if not dbm.check_email(su.email.data):
+                flash("Email Error")
+                return redirect(url_for("signup"))
+
+            if dbm.check_if_already_exists(
+                su.email.data, su.first_name.data, su.last_name.data
+            ):
+                flash("User Already Exists")
+                return redirect(url_for("signup"))
+
+            dbm.add_to_table(su.email.data,su.first_name.data, su.last_name.data,su.password.data,) # Adds provided data to database table if email string matches regex
+            flash("Successfully Created User")
+            return redirect(url_for("signup"))
         return render_template("signup.html", form=su)
 
     @app.route("/")
     def index():
-        print("hello")
+        """ 
+        the API's home page
+
+        Returns:
+            str: render_template("index.html")
+        
+        """
         return render_template("index.html")

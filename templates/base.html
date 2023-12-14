@@ -5,12 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width= , initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
     <title>Document</title>
 </head>
 
 <body>
-    <h1>Base</h1>
-{% block content %} {% endblock %}
+    <header>
+        <nav>
+            <p id="Name"></p>
+
+            <body onload="beginTypingAnimation('Name','Malik Zurkiyeh',1250)"></body>
+        </nav>
+    </header>
+
+    <div>
+        {% block content %} {% endblock %}
+    </div>
+
+    <script src="../static/script.js"></script>
 </body>
 
 </html>

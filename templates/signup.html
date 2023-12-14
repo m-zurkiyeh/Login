@@ -1,34 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %} lol{% endblock %}
+{% block title %} Signup{% endblock %}
+
 
 {% block content %}
+<form id="form" class="form" action="" method="post">
 
-    signup???
-    <form class="form" action="" method="post">
-        <p>
-            {{form.email.label}} <br>
-            {{form.email(size=30)}}
-        </p>
+    <h2>Signup</h2>
+    <p>
+        {{form.email.label}}: &nbsp; {{form.email(size=30)}} <br>
+    </p>
 
-        <p>
-            {{form.first_name.label}} <br>
-            {{form.first_name(size=30)}}
-        </p>
+    <p>
+        {{form.first_name.label}}: &nbsp; {{form.first_name(size=30)}} <br>
 
-        <p>
-            {{form.last_name.label}} <br>
-            {{form.last_name(size=30)}}
-        </p>
+    </p>
+
+    <p>
+        {{form.last_name.label}}: &nbsp; {{form.last_name(size=30)}} <br>
+    </p>
 
 
-        <p>
-            {{form.password.label}} <br>
-            {{form.password(size=30)}}
-        </p>
+    <p>
+        {{form.password.label}}: &nbsp; {{form.password(size=30)}} <br>
+    </p>
 
-        <p>{{form.submit()}}</p>
-        
-    </form>
+    <p>{{form.submit(class_="submit_button")}}</p>
 
+    <div class="message">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+       
+    </div>
+
+</form>
 {% endblock %}

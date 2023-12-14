@@ -1,12 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 :root {
-    background: #202020;
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 121, 96, 1) 0%, rgba(0, 212, 255, 1) 100%);
     font-family: lato;
     color: white;
+
 }
 
-.form {
-    padding:10px;
-    margin:10px;
-    justify-content: center;
+#Name {
+    color: whitesmoke;
+    font-family: 'Press Start 2P';
+    font-weight: 400;
+    font-size: 1.3rem;
+    text-align: center
     
+}
+
+#form.form {
+    margin: auto;
+    padding: 30px 30px 20px 25px;
+    max-width: 500px;
+    border-radius: 12px;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    gap: 30px;
+    border: 1px solid transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeIn ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+}
+
+.form:focus {
+    box-shadow: none; /* or adjust as needed */
+    outline: none;   /* or adjust as needed */
+}
+
+.submit_button {
+    display: block;
+    margin: auto;
+    font-family: lato;
+    font-size: 16px;
+    border-radius: 10px;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+#about.about {
+    position: absolute;
+    padding: 30px;
+    margin: 10px;
+    margin-top: 20px; /* Adjust the margin as needed */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+    border-radius: 12px;
+    gap: 30px;
+    display:block;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    animation: fadeIn ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+#about .about p {
+    font-size: 1.1rem;
+    line-height: 1.8rem;
+    font-weight:800;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
