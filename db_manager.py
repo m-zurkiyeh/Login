@@ -5,8 +5,8 @@ import re
 
 HOST = "localhost"
 PORT = 3306
-USER = "malik"
-PASSWORD = "malik"
+USER = "root"
+PASSWORD = "root"
 DATABASE = "mysql"
 
 
@@ -48,7 +48,7 @@ class db_manager:
 
         try:
             self.conn = mariadb.connect(**conn_settings)
-        except Exception:
+        except mariadb.Error as e:
             print("An error has occurred while attempting to connect to the database.\nPlease try again")
             exit()
         
