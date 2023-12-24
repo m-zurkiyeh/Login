@@ -82,7 +82,7 @@ CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost';
 ```
 
-**For purposes of the project, create a user named 'root' with the password 'root'**
+**For purposes of the project, create a user named 'user' with the password 'user'**
 
 11. Create a database by entering the command:
 ``` sql
@@ -94,6 +94,11 @@ CREATE DATABASE db;
 ``` sql
 create table users (id int NOT NULL AUTO_INCREMENT, email varchar(255), fname varchar(255), lname varchar(255), password varchar(255), PRIMARY KEY(id));
 ```
+
+13. Sign in to mariadb with the created user and the created database
+``` console
+$ sudo mysql -u user -p -h localhost mysql
+```
 ----
 
 ### How to Run
@@ -102,8 +107,15 @@ Simply run:
 ``` console
 $ python3 main.py
 ```
+Then go to the link http://127.0.0.1:5000/signup
 
 
+### Accessing the database
+To display the users:
+``` sql
+select email,fname,lname from users;
+```
+**You can include id and password but the id auto increments everytime a user is created and the passwords are encrypted and will be shown as a series of characters**
 
 ### TODO:
 - [ ] Implement admin authentications (Not Essential)
@@ -117,4 +129,6 @@ $ python3 main.py
 
 [^3]: [Install MariaDB Connector/Python](https://mariadb.com/docs/server/connect/programming-languages/python/install/)
 
+
+**VERY IMPORTANT: Although it will be on your own server and not published online and the user can be easily deleted, it is advisable not to enter your actual personal information, to test the login api, use dummy information**
 

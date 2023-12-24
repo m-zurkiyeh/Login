@@ -5,8 +5,8 @@ import re
 
 HOST = "localhost"
 PORT = 3306
-USER = "malik"
-PASSWORD = "malik"
+USER = "user"
+PASSWORD = "user"
 DATABASE = "mysql"
 
 
@@ -191,7 +191,7 @@ class db_manager:
 
         Args:
             self (self): the class' own instance
-            password (_type_): _description_
+            password (str): the password str
         
         Returns:
             True if first name and/or last name is found in the password, otherwise return false
@@ -207,10 +207,14 @@ class db_manager:
     
     def check_password_uppercase(self,password) -> bool:
         """
-        _summary_
+        Checks if the password has at least one uppercase character
 
         Args:
-            password (_type_): _description_
+            self: the class's instance
+            password (str): the password str
+        
+        Returns:
+            bool: True if an uppercase letter exists in the password 
         """
 
         self.password = password
@@ -219,10 +223,14 @@ class db_manager:
     
     def check_password_number(self,password) -> bool:
         """
-        _summary_
+        Checks if the password has at least one number
 
         Args:
-            password (_type_): _description_
+            self: the class' instance
+            password (str) : the password str
+
+        Returns:
+            bool: True if a number exists in the password
         """
 
         self.password = password
