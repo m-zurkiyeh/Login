@@ -7,4 +7,4 @@ from connector import connector
 if __name__ == '__main__':
     conn = connector()
     dbm = db_manager()
-    dbm.reset_id_increment()
+    # dbm.reset_id_increment()

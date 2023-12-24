@@ -5,8 +5,8 @@ import re
 
 HOST = "localhost"
 PORT = 3306
-USER = "root"
-PASSWORD = "root"
+USER = "malik"
+PASSWORD = "malik"
 DATABASE = "mysql"
 
 
@@ -131,7 +131,7 @@ class db_manager:
         )  # Gets all users using SELECT * query where id = the provided id
         return self.mycursor.fetchone()
 
-    def check_email(self, email):
+    def check_email(self, email) -> bool:
         """
         
         Checks the provided email if it matches according to the regex
@@ -146,7 +146,7 @@ class db_manager:
         """
 
         self.email = str(email)
-        return re.fullmatch(regex, self.email)
+        return bool(re.fullmatch(regex, self.email))
 
     def check_if_already_exists(self, email, fname, lname) -> bool:
         """
@@ -186,5 +186,46 @@ class db_manager:
         """
         self.mycursor.execute("ALTER TABLE users AUTO_INCREMENT = 1")
 
-    def update_user():
-        pass
+    def check_password_name(self,first_name,last_name,password) :
+        """
+
+        Args:
+            self (self): the class' own instance
+            password (_type_): _description_
+        
+        Returns:
+            True if first name and/or last name is found in the password, otherwise return false
+        """
+
+        self.first_name = first_name
+        self.last_name = last_name
+        self.password = password
+
+        no_name_in_passwd = first_name.casefold() in password.casefold() or last_name.casefold() in password.casefold()
+
+        return True if no_name_in_passwd else False
+    
+    def check_password_uppercase(self,password) -> bool:
+        """
+        _summary_
+
+        Args:
+            password (_type_): _description_
+        """
+
+        self.password = password
+
+        return bool(re.search(r'[A-Z]',password))
+    
+    def check_password_number(self,password) -> bool:
+        """
+        _summary_
+
+        Args:
+            password (_type_): _description_
+        """
+
+        self.password = password
+
+        return bool(re.search(r'\d',password))
+
