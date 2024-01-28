@@ -1,16 +1,5 @@
 let i = 0;
 
-
-$(document).ready(function () {
-
-    $('a[href="#java_paint"]').click(function () {
-        $("#java_paint").fadeIn("slow");
-    });
-    $('a[href="#pyduino_pong"]').click(function () {
-        $("#pyduino_pong").fadeIn("slow");
-    });
-});
-
 /**
  * A function that calls the typingAnimation() method to after a certain period of time to induce a delay 
  * @param {[string]} id [The id located in a certain tag]
