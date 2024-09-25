@@ -7,7 +7,7 @@
 ![Static Badge](https://img.shields.io/badge/Jinja-grey?logo=jinja)
 ![Static Badge](https://img.shields.io/badge/MariaDB-grey?logo=mariadb)
 
-A RESTful API simulating a Login Page written in Python using the Flask Framework to handle HTML routing, in addition to storing created users in a database created using MariaDB
+A RESTful API simulating a Login Page written in Python using the Flask Framework to handle HTML routing, in addition to storing user information using a MariaDB database
 
 # About
 <div align="center">
