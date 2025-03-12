@@ -26,41 +26,25 @@ A RESTful API simulating a Login Page written in Python using the Flask Framewor
 ## Installation
 **Please note that this RESTful with the Prerequisites installed in WSL. The installation methods for Windows or Powershell may vary**
 
-1. Install Python using [this link](https://www.python.org/downloads/). [^1] 
 
-2. Update the package index using this command:
+1. Update the package index using this command:
 
 ``` console
 $ sudo apt update && upgrade
 ```
 
-3. Install Python to the WSL terminal by entering the command: [^2]
+2. Run the following Commands:
 ``` console
-$ sudo apt install python3 python3-pip
-``` 
-
-
-4. Install a C compiler as it is essential for the connector to work, for instructions purposes, install GCC via the command: [^3]
-
-``` console
-$ sudo apt install gcc
+sudo apt install gcc
+sudo apt install openssl
+sudo apt install python3-dev
 ```
+These will install the necessary packages for MariaDB to work
 
-5. The second requirement is a TLS library such as OpenSSL. To install it, enter the command: [^3]
 
-``` console
-$ sudo apt install openssl
-```
+3. Install MariaDB using [this link](https://mariadb.com/downloads/community/), make sure to select MS Windows (64-bit) as the OS if you are using Windows
 
-6. The python development files is the third and last requirement for the the MariaDB Connector/Python. Install it using this command: [^3]
-
-``` console
-$ sudo apt install python3-dev
-```
-
-7. Install MariaDB using [this link](https://mariadb.com/downloads/community/), make sure to select MS Windows (64-bit) as the OS if you are using Windows
-
-8. To specifically use MariaDB in the terminal and not mysql, copy the paths to MariaDB Connector C 64-bit\lib\ and lib\plugin and MariaDB 'version number'\bin and add them to the Path system environment variable. They should look like this:
+4. To specifically use MariaDB in the terminal and not mysql, copy the paths to MariaDB Connector C 64-bit\lib\ and lib\plugin and MariaDB 'version number'\bin and add them to the Path system environment variable. They should look like this:
 
 <div align="center">
 <img src= static/imgs/paths.png>
@@ -70,34 +54,24 @@ $ sudo apt install python3-dev
 
 **Keep in mind that the location of the specified paths will vary depending on where they are installed**
 
-9. Start MariaDB by entering 
+5. Create the database and table using the provided .sql file, 
 ``` console
-$ sudo mysql
+$ mysql -u root -p < users.sql
 ```
 
-10. Create a user, by entering the following commands:
+6. Create a user, by entering the following commands:
 ``` sql
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
 
-GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
 ```
 
-**For purposes of the project, create a user named 'user' with the password 'user'**
+**'username' and 'password' can be of your choosing**
 
-11. Create a database by entering the command:
-``` sql
-CREATE DATABASE db;
-```
-**For purposes of the project, create a database named 'mysql'**
 
-12. Create the users table using the command:
-``` sql
-create table users (id int NOT NULL AUTO_INCREMENT, email varchar(255), fname varchar(255), lname varchar(255), password varchar(255), PRIMARY KEY(id));
-```
-
-13. Sign in to mariadb with the created user and the created database
+7. Exit MariaDB and sign in to the database with the new credentials
 ``` console
-$ sudo mysql -u user -p -h localhost mysql
+$ sudo mysql -u username -p -h localhost user_db
 ```
 ----
 
@@ -107,7 +81,7 @@ Simply run:
 ``` console
 $ python3 main.py
 ```
-Then go to the link http://127.0.0.1:5000/signup
+The app will be running at the address: http://127.0.0.1:5000/
 
 
 ### Accessing the database

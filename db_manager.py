@@ -5,9 +5,9 @@ import re
 
 HOST = "localhost"
 PORT = 3306
-USER = "user"
-PASSWORD = "user"
-DATABASE = "mysql"
+USER = "malik"
+PASSWORD = "malik"
+DATABASE = "user_db"
 
 
 key = Fernet.generate_key()
@@ -26,7 +26,7 @@ conn_settings = {
 
 
 regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
-""" The variable used as a template for emails """
+""" The variable used as the regex template for emails """
 
 
 class db_manager:
@@ -50,6 +50,7 @@ class db_manager:
             self.conn = mariadb.connect(**conn_settings)
         except mariadb.Error as e:
             print("An error has occurred while attempting to connect to the database.\nPlease try again")
+            print(e)
             exit()
         
         self.mycursor = self.conn.cursor()
@@ -70,7 +71,7 @@ class db_manager:
         self.lname = lname
         self.passwd = fernet.encrypt(
             passwd.encode()
-        )  # encrpts the password variable, turning into a long line of garbled text (Think mojibake minus the special characters and only in english letters but it's really not)
+        )  # encrpts the password variable, turning into a long line of garbled text
 
         self.mycursor.execute(
             """SELECT EXISTS(SELECT * FROM users where email = %s and fname = %s and lname = %s)""",
@@ -236,4 +237,11 @@ class db_manager:
         self.password = password
 
         return bool(re.search(r'\d',password))
+    
+    
+    def update_user() :
+        """
+        Updates user
+        """
+        pass
 

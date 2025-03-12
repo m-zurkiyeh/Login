@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Signup{% endblock %}
+
+{% block content %}
+<form id="form" class="form" action="" method="post">
+    <div>
+        <h2> <center>Sign Up</h2>
+    </div>
+    <p>
+        {{form.email(size=30, class_="input-box")}} <br>
+    </p>
+
+    <p>
+        {{form.first_name(size=30, class_="input-box")}} <br>
+
+    </p>
+
+    <p>
+        {{form.last_name(size=30, class_="input-box")}} <br>
+    </p>
+
+
+    <p>
+        {{form.password(size=30, class_="input-box")}} <br>
+    </p>
+
+    <div id = "password-hints">
+        <h4>The password must meet the following conditions:
+            <ul>
+                <li>The password must be between 4 to 25 characters</li>
+                <li>The password must have at least one uppercase character</li>
+                <li>The password must have at least one number</li>
+            </ul>
+        </h3>
+    </div>
+
+    <p>{{form.submit(class_="submit_button")}}</p>
+
+    <div class="message">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+       
+    </div>
+
+    
+</form>
+
+<div>
+    
+</div>
+
+{% endblock %}
