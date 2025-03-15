@@ -10,11 +10,6 @@ PASSWORD = "malik"
 DATABASE = "user_db"
 
 
-key = Fernet.generate_key()
-
-fernet = Fernet(key)
-
-
 conn_settings = {
     "host": HOST,
     "port": PORT,
@@ -22,7 +17,6 @@ conn_settings = {
     "password": PASSWORD,
     "database": DATABASE,
 }
-"""The dictionary used as a template to connect to the database"""
 
 
 regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
@@ -69,9 +63,7 @@ class db_manager:
         self.email = email
         self.fname = fname
         self.lname = lname
-        self.passwd = fernet.encrypt(
-            passwd.encode()
-        )  # encrpts the password variable, turning into a long line of garbled text
+        self.passwd = passwd
 
         self.mycursor.execute(
             """SELECT EXISTS(SELECT * FROM users where email = %s and fname = %s and lname = %s)""",
@@ -112,6 +104,11 @@ class db_manager:
         user_list = tuple(user_list)
         return user_list
 
+    def get_first_name(self,email):
+        self.email = email
+        self.mycursor.execute("""SELECT fname FROM users WHERE email = %s""",(str(self.email),),)  
+        return self.mycursor.fetchone()[0]
+        
     def get_user_by_id(self, user_id):
         """
 
@@ -149,7 +146,7 @@ class db_manager:
         self.email = str(email)
         return bool(re.fullmatch(regex, self.email))
 
-    def check_if_already_exists(self, email, fname, lname) -> bool:
+    def already_exists(self, email, fname, lname) -> bool:
         """
 
         Checks the table if the user with the information provided already exists
@@ -169,25 +166,22 @@ class db_manager:
         self.lname = lname
 
         # This specific query returns a tuple of str
-        self.mycursor.execute("""SELECT EXISTS(SELECT * FROM users where email = %s and fname = %s and lname = %s)""",(self.email, self.fname, self.lname),)  
+        self.mycursor.execute("""SELECT EXISTS(SELECT * FROM users WHERE email = %s AND fname = %s AND lname = %s)""",(self.email, self.fname, self.lname),)  
 
-        does_exist = self.mycursor.fetchone()[0]  # Gets the first and only index of the tuple
+        already_exists = self.mycursor.fetchone()[0]  # Gets the first and only index of the tuple
 
-        return True if does_exist == 1 else False  # Returns a bool value via a ternary operator
+        return True if already_exists == 1 else False  # Returns a bool value via a ternary operator
 
-    def reset_id_increment(self):
-        """
-        Resets the id column of the table that has the AUTO_INCREMENT attribute attached to it
+    def exists(self,email,passwd) -> bool:
+        self.email = email
+        self.passwd = passwd
+        
+        self.mycursor.execute("""SELECT EXISTS(SELECT * FROM users WHERE email = %s AND password = %s)""",(self.email, self.passwd),)
+        
+        return True if self.mycursor.fetchone()[0] == 1 else False
+    
 
-        Args:
-            self (self): the class' own instance
-
-        Returns:
-            void
-        """
-        self.mycursor.execute("ALTER TABLE users AUTO_INCREMENT = 1")
-
-    def check_password_name(self,first_name,last_name,password) :
+    def check_password_name(self,first_name,last_name,password) -> bool :
         """
 
         Args:

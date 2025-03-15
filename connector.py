@@ -1,6 +1,7 @@
 import json
 from flask import (
     Flask,
+    session,
     request,
     jsonify,
     redirect,
@@ -9,7 +10,7 @@ from flask import (
     flash,
 )
 from db_manager import db_manager
-from forms import Sign_up
+from forms import *
 
 
 app = Flask(__name__)       
@@ -26,16 +27,29 @@ class connector:
         self -- the class's own instance
 
         """
-
         app.run(debug=True, use_reloader=True)
+        session.clear()
 
 
     @app.route("/",methods=["GET","POST"])
+    def login():
+        li = Log_In()
+        message = ""
+        if li.is_submitted(): 
+            if dbm.exists(li.email.data,li.password.data) == True:
+                session['email'] = li.email.data
+                user_first_name = dbm.get_first_name(li.email.data)
+                return redirect(url_for("main_page",name=user_first_name))
+            else: 
+                flash("Login Failed")
+        return render_template("login.html",form=li)
+        
+    
+    @app.route("/signup",methods=["GET","POST"])
     def signup():
-        su = Sign_up()
+        su = Sign_Up()
         message = ""
         if su.is_submitted():
-            result = request.form
             if not dbm.check_email(su.email.data):
                 flash("Email Error")
                 return redirect(url_for("signup"))
@@ -52,7 +66,7 @@ class connector:
                 flash("Password must have at least one number")
                 return redirect(url_for("signup"))
 
-            if dbm.check_if_already_exists(su.email.data, su.first_name.data, su.last_name.data):
+            if dbm.already_exists(su.email.data, su.first_name.data, su.last_name.data):
                 flash("User Already Exists")
                 return redirect(url_for("signup"))
 
@@ -62,8 +76,16 @@ class connector:
             flash(f"Welcome {su.first_name.data} {su.last_name.data}!")
             
             return redirect(url_for("signup"))
-        return render_template("index.html", form=su)
+        return render_template("signup.html", form=su)
 
+    @app.route("/main",methods=["GET","POST"])
+    def main_page():
+        lo = Log_Out()
+        if lo.is_submitted():
+            session.pop('email',None)
+            return redirect(url_for("login"))
+        return render_template("main.html",name=request.args.get('name'))
+    
     @app.route("/users", methods=["GET"])
     def get_users():
         users_list = dbm.show_table()
@@ -73,14 +95,6 @@ class connector:
     def get_user(user_id):
         row = dbm.get_user_by_id(user_id)
         return jsonify(row), 200
-
-    @app.route("/create-user", methods=["POST"])
-    def create_user():
-        user = request.get_json()
-        print(user["email"])
-        dbm.add_to_table(user["email"], user["fname"], user["lname"], user["password"])
-        return "User Successfully Created", 201
-
     
     @app.route("/change-user/<user_id>",methods=["PUT"])
     def change_user_page(): 

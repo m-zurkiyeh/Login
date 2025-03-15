@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+<form id="form" class="form" action="" method="post">
+
+    <h2>Welcome {{name}}!</h2>
+
+    <p>
+    You are now in the main page of my Login Simulator <br>
+
+    If you like the simulator, you can check out my <a href="http://github.com/m-zurkiyeh" target="_blank">GitHub</a>
+    </p>
+
+    <input type="submit" class="button" name="log_out_button" value="Log Out">
+</form>
+
+{% endblock %}
