@@ -1,16 +1,17 @@
 import mariadb
 from cryptography.fernet import Fernet
 import re
+import os
 
 
 HOST = "localhost"
 PORT = 3306
-USER = "malik"
-PASSWORD = "malik"
+USER = "<user>"
+PASSWORD = "<password>"
 DATABASE = "user_db"
 
 
-conn_settings = {
+CONNECTION_SETTINGS = {
     "host": HOST,
     "port": PORT,
     "user": USER,
@@ -18,10 +19,11 @@ conn_settings = {
     "database": DATABASE,
 }
 
+key = Fernet.generate_key()
+
+fernet = Fernet(key)
 
 regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
-""" The variable used as the regex template for emails """
-
 
 class db_manager:
 
@@ -41,10 +43,9 @@ class db_manager:
         """
 
         try:
-            self.conn = mariadb.connect(**conn_settings)
+            self.conn = mariadb.connect(**CONNECTION_SETTINGS)
         except mariadb.Error as e:
-            print("An error has occurred while attempting to connect to the database.\nPlease try again")
-            print(e)
+            print("An error has occurred while connecting to the database.\nPlease check the inputted credentials and try again.")
             exit()
         
         self.mycursor = self.conn.cursor()
@@ -80,7 +81,7 @@ class db_manager:
         )
         self.conn.commit()
 
-    def show_table(self):
+    def show_table(self) -> tuple:
         """
 
         Displays a table containing all of the user created in the database
@@ -104,10 +105,26 @@ class db_manager:
         user_list = tuple(user_list)
         return user_list
 
-    def get_first_name(self,email):
+    def get_full_name(self,email) -> tuple:
+        
+        """
+
+        Returns the user's full name based on the email
+
+        Args:
+            self (self): the class' instance
+            email:
+
+        Returns:
+            user_list: variable containing all of the users comprised in a single list
+
+        """
+        
+        
         self.email = email
-        self.mycursor.execute("""SELECT fname FROM users WHERE email = %s""",(str(self.email),),)  
-        return self.mycursor.fetchone()[0]
+        self.mycursor.execute("""SELECT fname, lname FROM users WHERE email = %s""",(str(self.email),),)  
+        return self.mycursor.fetchone()
+    
         
     def get_user_by_id(self, user_id):
         """
@@ -172,6 +189,19 @@ class db_manager:
 
         return True if already_exists == 1 else False  # Returns a bool value via a ternary operator
 
+
+    def check_email_exists(self,email) -> bool :
+        
+        self.email = email
+
+        # This specific query returns a tuple of str
+        self.mycursor.execute("""SELECT EXISTS(SELECT * FROM users WHERE email = %s)""",(self.email),)  
+
+        already_exists = self.mycursor.fetchone()[0]  # Gets the first and only index of the tuple
+
+        return True if already_exists == 1 else False  # Returns a bool value via a ternary operator
+
+
     def exists(self,email,passwd) -> bool:
         self.email = email
         self.passwd = passwd
@@ -231,11 +261,3 @@ class db_manager:
         self.password = password
 
         return bool(re.search(r'\d',password))
-    
-    
-    def update_user() :
-        """
-        Updates user
-        """
-        pass
-

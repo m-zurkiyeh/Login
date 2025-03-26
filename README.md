@@ -15,7 +15,7 @@ A RESTful API simulating a Login Page written in Python using the Flask Framewor
 </div>
 
 
-## Prerequisites
+## Requirements
 1. Python **(3.11 ) HIGHLY RECOMMENDED**
 2. MariaDB Connector for Python 
     - A C compiler, preferably GCC
@@ -24,22 +24,28 @@ A RESTful API simulating a Login Page written in Python using the Flask Framewor
 
 
 ## Installation
-**Please note that this RESTful with the Prerequisites installed in WSL. The installation methods for Windows or Powershell may vary**
+> [!IMPORTANT]
+> For the time being, the installation is only for WSL, Instructions for Windows Powershell will be added soon
 
 
-1. Update the package index using this command:
-
-``` console
-$ sudo apt update && upgrade
+1. Grant the setup.sh file execute permission by entering:
+```console
+$ chmod +x setup.sh
 ```
 
-2. Run the following Commands:
-``` console
-sudo apt install gcc
-sudo apt install openssl
-sudo apt install python3-dev
+Then run the script file
+
+```console
+sudo ./setup.sh
 ```
-These will install the necessary packages for MariaDB to work
+
+> [!IMPORTANT]
+> The script must be run with sudo as it contains commands to install the necessary packages for MariaDB to work with the terminal
+
+
+**Important: you must use sudo as the script contains commands for installing the necessary packages for MariaDB to work on the console**
+
+
 
 
 3. Install MariaDB using [this link](https://mariadb.com/downloads/community/), make sure to select MS Windows (64-bit) as the OS if you are using Windows
@@ -77,7 +83,13 @@ $ sudo mysql -u username -p -h localhost user_db
 
 ### How to Run
 
-Simply run:
+First, go to the db_manager.py file and change these 2 constants to your recently created credentials:
+```python
+USER = "<user>"
+PASSWORD = "<password>"
+```
+
+Then simply run this command:
 ``` console
 $ python3 main.py
 ```
@@ -89,11 +101,6 @@ To display the users:
 ``` sql
 select email,fname,lname from users;
 ```
-**You can include id and password but the id auto increments everytime a user is created and the passwords are encrypted and will be shown as a series of characters**
-
-### TODO:
-- [ ] Implement admin authentications (Not Essential)
-
 
 ### References
 
@@ -104,5 +111,6 @@ select email,fname,lname from users;
 [^3]: [Install MariaDB Connector/Python](https://mariadb.com/docs/server/connect/programming-languages/python/install/)
 
 
-**VERY IMPORTANT: Although it will be on your own server and not published online and the user can be easily deleted, it is advisable not to enter your actual personal information, to test the login api, use dummy information**
+>[!WARNING]
+> It is best to use dummy information as the user input will be stored in the local database. 
 

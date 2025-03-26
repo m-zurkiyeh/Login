@@ -12,9 +12,16 @@
 <body>
     <header>
         <nav>
-            <p id="Name"></p>
-
-            <body onload="beginTypingAnimation('Name','Login Simulator',1250)"></body>
+            <p id="Name">Login Simulator</p>
+            
+            <body onload="beginTypingAnimation('Name','Malik Zurkiyeh',1250)"></body>
+            <ul class="navi">
+                <li><button class="button">Hello</button></li>
+            </ul>
+            <button class="burger-menu" id="burger-menu">
+                <ion-icon class="bars" name="menu-outline"></ion-icon>
+            </button>
+            
         </nav>
     </header>
 
@@ -22,7 +29,6 @@
         {% block content %} {% endblock %}
     </div>
     
-    <script src="../static/script.js"></script>
 </body>
 
 </html>

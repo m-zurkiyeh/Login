@@ -6,19 +6,11 @@
     <h2><center>Log In</center></ht>
 </div>
 
-<p>
-    {{form.email(size=30, class_="input-box")}} <br>
-</p>
+{{form.email(size=25, class_="input-box")}}
+{{form.password(size=25, class_="input-box")}}
+{{form.submit(class_="button")}}
 
-<p>
-    {{form.password(size=30, class_="input-box")}} <br>
-</p>
-
-<p>
-    {{form.submit(class_="button")}}
-</p>
-
-Don't have an account?&nbsp<a href="{{url_for('signup')}}">Sign Up</a>
+<p class="link">Don't have an account?&nbsp<a href="{{url_for('signup')}}">Sign Up</a></p>
 
 <div class="message">
     {% with messages = get_flashed_messages() %}

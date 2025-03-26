@@ -35,11 +35,14 @@ class connector:
     def login():
         li = Log_In()
         message = ""
-        if li.is_submitted(): 
-            if dbm.exists(li.email.data,li.password.data) == True:
-                session['email'] = li.email.data
-                user_first_name = dbm.get_first_name(li.email.data)
-                return redirect(url_for("main_page",name=user_first_name))
+        if li.is_submitted():
+            email = li.email.data
+            password = li.password.data
+             
+            if dbm.exists(email,password) == True:
+                session['email'] = email
+                full_name = ' '.join(str(name) for name in dbm.get_full_name(email)) 
+                return redirect(url_for("main_page",name=full_name))
             else: 
                 flash("Login Failed")
         return render_template("login.html",form=li)
@@ -50,30 +53,35 @@ class connector:
         su = Sign_Up()
         message = ""
         if su.is_submitted():
-            if not dbm.check_email(su.email.data):
+            
+            email = su.email.data
+            first_name = su.first_name.data
+            last_name = su.last_name.data
+            password = su.password.data
+            
+            
+            if not dbm.check_email(email):
                 flash("Email Error")
                 return redirect(url_for("signup"))
 
-            if dbm.check_password_name(su.first_name.data, su.last_name.data,su.password.data):
+            if dbm.check_password_name(first_name, last_name,password):
                 flash("Password cannot have first name and/or last name")
                 return redirect(url_for("signup"))
             
-            if not dbm.check_password_uppercase(su.password.data):
+            if not dbm.check_password_uppercase(password):
                 flash("Password must have at least one uppercase letter")
                 return redirect(url_for("signup"))
             
-            if not dbm.check_password_number(su.password.data):
+            if not dbm.check_password_number(password):
                 flash("Password must have at least one number")
                 return redirect(url_for("signup"))
 
-            if dbm.already_exists(su.email.data, su.first_name.data, su.last_name.data):
+            if dbm.already_exists(email, first_name, last_name):
                 flash("User Already Exists")
                 return redirect(url_for("signup"))
 
-    
-            
-            dbm.add_to_table(su.email.data,su.first_name.data, su.last_name.data,su.password.data,) # Adds provided data to database table if email string matches regex
-            flash(f"Welcome {su.first_name.data} {su.last_name.data}!")
+            dbm.add_to_table(email,first_name, last_name,password,) # Adds provided data to database table if email string matches regex
+            flash(f"Welcome {first_name} {last_name}!")
             
             return redirect(url_for("signup"))
         return render_template("signup.html", form=su)
@@ -84,7 +92,7 @@ class connector:
         if lo.is_submitted():
             session.pop('email',None)
             return redirect(url_for("login"))
-        return render_template("main.html",name=request.args.get('name'))
+        return render_template("welcome.html",name=request.args.get('name'))
     
     @app.route("/users", methods=["GET"])
     def get_users():
@@ -96,8 +104,4 @@ class connector:
         row = dbm.get_user_by_id(user_id)
         return jsonify(row), 200
     
-    @app.route("/change-user/<user_id>",methods=["PUT"])
-    def change_user_page(): 
-        pass
-        return render_template("index.html")
 
