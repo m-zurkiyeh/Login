@@ -16,47 +16,52 @@ A RESTful API simulating a Login Page written in Python using the Flask Framewor
 
 
 ## Requirements
-1. Python **(3.11 ) HIGHLY RECOMMENDED**
+1. Python 
 2. MariaDB Connector for Python 
     - A C compiler, preferably GCC
     - OpenSSl 
-3. Windows Subsystem for Linux
 
 
 ## Installation
-> [!IMPORTANT]
-> For the time being, the installation is only for WSL, Instructions for Windows Powershell will be added soon
-
-
-1. Grant the setup.sh file execute permission by entering:
-```console
-$ chmod +x setup.sh
-```
-
-Then run the script file
-
-```console
-sudo ./setup.sh
-```
-
-> [!IMPORTANT]
-> The script must be run with sudo as it contains commands to install the necessary packages for MariaDB to work with the terminal
-
-
-**Important: you must use sudo as the script contains commands for installing the necessary packages for MariaDB to work on the console**
+[Windows](#Windows) (Coming Soon)  
+[Linux](#Linux)
 
 
 
+## Windows (WIP)
 
-3. Install MariaDB using [this link](https://mariadb.com/downloads/community/), make sure to select MS Windows (64-bit) as the OS if you are using Windows
+>[!IMPORTANT]
+> Instructions for windows installation are incomplete at the moment, more instructions will be coming soon
 
-4. To specifically use MariaDB in the terminal and not mysql, copy the paths to MariaDB Connector C 64-bit\lib\ and lib\plugin and MariaDB 'version number'\bin and add them to the Path system environment variable. They should look like this:
+1. Install MariaDB using [this link](https://mariadb.com/downloads/community/), make sure to select MS Windows (64-bit) as the OS if you are using Windows
+
+2. To specifically use MariaDB in the terminal and not mysql, copy the paths to MariaDB Connector C 64-bit\lib\ and lib\plugin and MariaDB 'version number'\bin and add them to the Path system environment variable. They should look like this:
 
 <div align="center">
 <img src= static/imgs/paths.png>
 </div>
 
 </br>
+
+
+
+
+
+## Linux
+
+1. Grant the setup.sh file execute permission by entering:
+```console
+$ chmod +x setup.sh
+```
+
+Then run the script as root **(Not optional)**
+
+```console
+sudo ./setup.sh
+```
+
+
+
 
 **Keep in mind that the location of the specified paths will vary depending on where they are installed**
 
@@ -65,7 +70,7 @@ sudo ./setup.sh
 $ mysql -u root -p < users.sql
 ```
 
-6. Create a user, by entering the following commands:
+6. Create a user with all privileges, by entering the following commands:
 ``` sql
 CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
 

@@ -1,15 +1,8 @@
 import mariadb
-from cryptography.fernet import Fernet
+import argon2
 import re
-import os
 
-
-HOST = "localhost"
-PORT = 3306
-USER = "<user>"
-PASSWORD = "<password>"
-DATABASE = "user_db"
-
+HOST, PORT, USER, PASSWORD, DATABASE = "localhost", 3306, "<user>","<password>", "user_db"
 
 CONNECTION_SETTINGS = {
     "host": HOST,
@@ -19,19 +12,18 @@ CONNECTION_SETTINGS = {
     "database": DATABASE,
 }
 
-key = Fernet.generate_key()
 
-fernet = Fernet(key)
+REGEX = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
 
-regex = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b"
+hasher = argon2.PasswordHasher()
 
 class db_manager:
-
+    
     """
     The sole purpose of this class is to handle everything
     related databases as well as processing of parameters
     """
-
+    
     def __init__(self):
         """
         Connects to the database and activates
@@ -41,7 +33,7 @@ class db_manager:
         self -- class' instance
         Return: void
         """
-
+    
         try:
             self.conn = mariadb.connect(**CONNECTION_SETTINGS)
         except mariadb.Error as e:
@@ -64,14 +56,8 @@ class db_manager:
         self.email = email
         self.fname = fname
         self.lname = lname
-        self.passwd = passwd
+        self.passwd = hasher.hash(passwd)
 
-        self.mycursor.execute(
-            """SELECT EXISTS(SELECT * FROM users where email = %s and fname = %s and lname = %s)""",
-            (self.email, self.fname, self.lname),
-        )
-
-        print(self.mycursor.fetchone()[0])
 
         # Executes the query
         self.mycursor.execute(
@@ -161,7 +147,7 @@ class db_manager:
         """
 
         self.email = str(email)
-        return bool(re.fullmatch(regex, self.email))
+        return bool(re.fullmatch(REGEX, self.email))
 
     def already_exists(self, email, fname, lname) -> bool:
         """
@@ -202,13 +188,20 @@ class db_manager:
         return True if already_exists == 1 else False  # Returns a bool value via a ternary operator
 
 
-    def exists(self,email,passwd) -> bool:
+    def login_check(self,email,passwd) -> bool:
         self.email = email
         self.passwd = passwd
         
-        self.mycursor.execute("""SELECT EXISTS(SELECT * FROM users WHERE email = %s AND password = %s)""",(self.email, self.passwd),)
+        # self.mycursor.execute("""SELECT EXISTS(SELECT * FROM users WHERE email = %s AND password = %s)""",(self.email, self.passwd),)
         
-        return True if self.mycursor.fetchone()[0] == 1 else False
+        self.mycursor.execute("""SELECT password FROM users where email = %s""",(self.email,),)
+        
+        hashed_pass = self.mycursor.fetchone()[0]
+        try:
+            return hasher.verify(hashed_pass,self.passwd)
+        except:
+            return False
+    
     
 
     def check_password_name(self,first_name,last_name,password) -> bool :

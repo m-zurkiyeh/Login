@@ -28,7 +28,6 @@ class connector:
 
         """
         app.run(debug=True, use_reloader=True)
-        session.clear()
 
 
     @app.route("/",methods=["GET","POST"])
@@ -39,7 +38,7 @@ class connector:
             email = li.email.data
             password = li.password.data
              
-            if dbm.exists(email,password) == True:
+            if dbm.login_check(email,password) == True:
                 session['email'] = email
                 full_name = ' '.join(str(name) for name in dbm.get_full_name(email)) 
                 return redirect(url_for("main_page",name=full_name))
@@ -51,7 +50,6 @@ class connector:
     @app.route("/signup",methods=["GET","POST"])
     def signup():
         su = Sign_Up()
-        message = ""
         if su.is_submitted():
             
             email = su.email.data
@@ -81,9 +79,10 @@ class connector:
                 return redirect(url_for("signup"))
 
             dbm.add_to_table(email,first_name, last_name,password,) # Adds provided data to database table if email string matches regex
-            flash(f"Welcome {first_name} {last_name}!")
             
-            return redirect(url_for("signup"))
+            full_name = ' '.join(str(name) for name in dbm.get_full_name(email))
+            
+            return redirect(url_for("main_page",name=full_name))
         return render_template("signup.html", form=su)
 
     @app.route("/main",methods=["GET","POST"])
