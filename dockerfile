@@ -14,4 +14,6 @@ COPY . .
 RUN pip install -r requirements.txt --break-system-packages
 
 
-CMD [ "python3", "main.py"]
+#CMD [ "python3", "-u","main.py"]
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]

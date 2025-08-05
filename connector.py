@@ -13,13 +13,13 @@ from db_manager import db_manager
 from forms import *
 
 
-app = Flask(__name__)       
+app = Flask("app")       
 app.config["SECRET_KEY"] = "Lz8UhFZZK4tIkg53W0JPeKhmubJV7Idz0IBRVsHZaIg3JaFjPh"
 dbm = db_manager()
 
 
 class connector:
-    def __init__(self):
+    def __init__(self, name):
         """
         Runs the flask application on call
 
@@ -28,6 +28,7 @@ class connector:
 
         """
         app.run(debug=True, use_reloader=True)
+        print("Hello World!")
 
 
     @app.route("/",methods=["GET","POST"])
@@ -103,4 +104,18 @@ class connector:
         row = dbm.get_user_by_id(user_id)
         return jsonify(row), 200
     
+@app.after_request
+def after(response):
+    # todo with response
+    print("after request")
+    print(response.status)
+    print(response.headers)
+    print(response.get_data())
+    return response
 
+@app.before_request
+def before():
+    # todo with request
+    # e.g. print request.headers
+    print("before request")
+    pass
