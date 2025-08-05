@@ -7,35 +7,62 @@
 ![Static Badge](https://img.shields.io/badge/Jinja-grey?logo=jinja)
 ![Static Badge](https://img.shields.io/badge/MariaDB-grey?logo=mariadb)
 
-A RESTful API simulating a Login Page written in Python using the Flask Framework to handle HTML routing, in addition to storing user information using a MariaDB database
 
-# About
 <div align="center">
     <img src="static/imgs/signup.png">
 </div>
 
+## Table of Contents
+- [About](#About)
+- [Requirements](#Requirements)
+- [Installation](#Installation)
+- [User](#User)
+
+## About
+A RESTful API simulating a Login Page written in Python using the Flask Framework to handle HTML routing, in addition to storing user information using a MariaDB database
+
 
 ## Requirements
 1. Python 
-2. MariaDB Connector for Python 
-    - A C compiler, preferably GCC
-    - OpenSSl 
+2. MariaDB
+    - C Connector ([Windows](https://mariadb.com/downloads/connectors/connectors-data-access/c-connector/))
+    - Python Connector([Windows and Linux](https://mariadb.com/docs/server/connect/programming-languages/python/install/#Install_from_PyPI))
+3. Chocolatey (Windows)
+4. A [user](#User) created in SQL (**RECOMMENDED**)
 
 
 ## Installation
-[Windows](#Windows) (Coming Soon)  
+[Windows](#Windows) <br>
 [Linux](#Linux)
 
+## User
 
+1. Login to MariaDB as root using the command:
+```
+mysql -u root -p
+```
 
-## Windows (WIP)
+2. Create a user with access to the user database, by entering the following commands:
+``` sql
+CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON user_db.* TO 'username'@'localhost';
+```
+
+**'username' and 'password' can be of your choosing**
+
+## Windows (Chocolatey)
 
 >[!IMPORTANT]
 > Instructions for windows installation are incomplete at the moment, more instructions will be coming soon
 
 1. Install MariaDB using [this link](https://mariadb.com/downloads/community/), make sure to select MS Windows (64-bit) as the OS if you are using Windows
 
-2. To specifically use MariaDB in the terminal and not mysql, copy the paths to MariaDB Connector C 64-bit\lib\ and lib\plugin and MariaDB 'version number'\bin and add them to the Path system environment variable. They should look like this:
+2. Install the necessary packages using the command:
+``` choco install packages.config ``` 
+
+
+3. To specifically use MariaDB in the terminal and not mysql, copy the paths to MariaDB Connector C 64-bit\lib\ and lib\plugin and MariaDB 'version number'\bin and add them to the Path system environment variable. They should look like this:
 
 <div align="center">
 <img src= static/imgs/paths.png>
@@ -70,14 +97,7 @@ sudo ./setup.sh
 $ mysql -u root -p < users.sql
 ```
 
-6. Create a user with all privileges, by entering the following commands:
-``` sql
-CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
 
-GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
-```
-
-**'username' and 'password' can be of your choosing**
 
 
 7. Exit MariaDB and sign in to the database with the new credentials

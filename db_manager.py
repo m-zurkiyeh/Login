@@ -1,15 +1,14 @@
 import mariadb
 import argon2
 import re
-
-HOST, PORT, USER, PASSWORD, DATABASE = "localhost", 3306, "<user>","<password>", "user_db"
+import os
 
 CONNECTION_SETTINGS = {
-    "host": HOST,
-    "port": PORT,
-    "user": USER,
-    "password": PASSWORD,
-    "database": DATABASE,
+    "host": os.environ.get("DB_HOST"),
+    "port": int(os.environ.get("DB_PORT")),
+    "user": os.environ.get("DB_USER"),
+    "password": os.environ.get("DB_PASSWORD"),
+    "database": os.environ.get("DB"),
 }
 
 
@@ -37,7 +36,8 @@ class db_manager:
         try:
             self.conn = mariadb.connect(**CONNECTION_SETTINGS)
         except mariadb.Error as e:
-            print("An error has occurred while connecting to the database.\nPlease check the inputted credentials and try again.")
+            #print("An error has occurred while connecting to the database.\nPlease check the inputted credentials and try again.")
+            print(e)
             exit()
         
         self.mycursor = self.conn.cursor()
