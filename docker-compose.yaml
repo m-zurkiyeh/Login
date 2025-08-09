@@ -9,9 +9,9 @@ services:
           - DB_HOST=db
           - DB_USER=root
           - DB_PASSWORD=root
-          - DB=user_db
+          - DB=user_database
           - DB_PORT=3306
-          - FLASK_APP=app.py
+          - SECRET_KEY = {$SECRET_KEY}
       ports:
           - 5000:5000
     
@@ -19,11 +19,12 @@ services:
     image: mariadb:latest
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: user_db
+      MYSQL_DATABASE: user_database
     ports:
       - "3306:3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      #- mariadb_data:/var/lib/mysql
+      - ./users.sql:/docker-entrypoint-initdb.d/users.sql
     healthcheck:
       test: "mariadb $$MYSQL_DATABASE -uroot -p$$MYSQL_ROOT_PASSWORD -e 'SELECT 1;'"
       interval: 2s
