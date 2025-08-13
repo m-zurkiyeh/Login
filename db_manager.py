@@ -1,14 +1,14 @@
-import mariadb
-import argon2
-import re
-import os
+import mariadb, argon2, re, os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 CONNECTION_SETTINGS = {
     "host": os.environ.get("DB_HOST"),
-    "port": int(os.environ.get("DB_PORT",3306)),
-    "user": os.environ.get("DB_USER"),
-    "password": os.environ.get("DB_PASSWORD"),
-    "database": os.environ.get("DB"),
+    "port": int(os.getenv("DB_PORT",3306)),
+    "user": os.getenv("DB_USERNAME"),
+    "password": os.getenv("DB_PASSWORD"),
+    "database": os.getenv("DB"),
 }
 
 

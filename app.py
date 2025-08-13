@@ -1,4 +1,5 @@
-import json
+import os,secrets
+from dotenv import load_dotenv
 from flask import (
     Flask,
     session,
@@ -12,15 +13,32 @@ from flask import (
 from db_manager import db_manager
 from forms import *
 
+load_dotenv()
 
-app = Flask("app", static_folder='static',template_folder='templates')       
-app.config["SECRET_KEY"] = "Lz8UhFZZK4tIkg53W0JPeKhmubJV7Idz0IBRVsHZaIg3JaFjPh"
+    
+def check_env_for_key() -> str:
+        """
+        Checks .env file for secret key variable, creating a key if not found
+
+        """
+        if os.getenv('FLASK_SECRET_KEY') != None:
+            return os.getenv('FLASK_SECRET_KEY')
+        else:
+            with open(".env","a") as envfile:
+                key = secrets.token_hex(64)
+                envfile.write(f"FLASK_SECRET_KEY= {key}\n")
+                envfile.close()
+                return os.getenv('FLASK_SECRET_KEY')
+
+
+app = Flask("app", static_folder='static',template_folder='templates')      
+app.config["SECRET_KEY"] = check_env_for_key()
 dbm = db_manager()
-# template_dir = os.path.abspath('../templates')
-# static_dir = os.path.abspath('../static')
 
+            
 
 class connector:
+
     def begin():
         """
         Runs the flask application on call
@@ -30,7 +48,6 @@ class connector:
 
         """
         app.run(host='0.0.0.0', port=5000, debug=True)
-        print("Hello World!")
 
 
     @app.route("/",methods=["GET","POST"])
@@ -121,6 +138,7 @@ class connector:
     # # e.g. print request.headers
     #     print("before request")
     #     pass
+    
     
     
     if __name__ == '__main__':
