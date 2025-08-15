@@ -181,6 +181,7 @@ select email,fname,lname from users;
 
 <br>
 
+**To Terminate the application, CTRL+C for Windows and Linux, and "docker compose down " for docker**
 
 ### References
 

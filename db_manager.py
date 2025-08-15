@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 CONNECTION_SETTINGS = {
-    "host": os.environ.get("DB_HOST"),
+    "host": os.environ.get("DB_HOST","localhost"),
     "port": int(os.getenv("DB_PORT",3306)),
     "user": os.getenv("DB_USERNAME"),
     "password": os.getenv("DB_PASSWORD"),

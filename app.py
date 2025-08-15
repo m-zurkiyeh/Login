@@ -1,4 +1,3 @@
-import os,secrets
 from dotenv import load_dotenv
 from flask import (
     Flask,
@@ -12,28 +11,21 @@ from flask import (
 )
 from db_manager import db_manager
 from forms import *
+from dotenv_config import *
 
-load_dotenv()
 
-    
-def check_env_for_key() -> str:
-        """
-        Checks .env file for secret key variable, creating a key if not found
+secret_key = init_dotenv()
 
-        """
-        if os.getenv('FLASK_SECRET_KEY') != None:
-            return os.getenv('FLASK_SECRET_KEY')
-        else:
-            with open(".env","a") as envfile:
-                key = secrets.token_hex(64)
-                envfile.write(f"FLASK_SECRET_KEY= {key}\n")
-                envfile.close()
-                return os.getenv('FLASK_SECRET_KEY')
+
 
 
 app = Flask("app", static_folder='static',template_folder='templates')      
-app.config["SECRET_KEY"] = check_env_for_key()
 dbm = db_manager()
+
+print(secret_key)
+print("Key after init")
+app.config["SECRET_KEY"] = secret_key
+print(app.config["SECRET_KEY"])
 
             
 
