@@ -129,11 +129,6 @@ Run this command:
 $ python3 app.py
 ```
 
->[!NOTE]
-> While a flask secret key is mentioned in the coded, a flask secret key will be generated and added as a variable in env called FLASK_SECRET_KEY for the program to use at runtime
-
-
-
 
 ### Docker
 
@@ -154,8 +149,36 @@ docker logs login-app-1
 ```
 
 The app will be running at the address: http://127.0.0.1:5000/
+<br><br>
 
+To stop the app, run: <br> 
+```console
+docker stop login-db-1 login-app-1
+```
 
+<br>
+To restart the app, run: <br> <br>
+
+```console
+docker restart login-db-1
+```
+
+```console
+docker restart login-app-1
+```
+
+>[!IMPORTANT]
+> The restart commands must be run individually from top to bottom <br>
+
+To delete the containers, run: <br> <br>
+```console
+docker comopse down
+```
+
+>[!CAUTION]
+> Doing this will delete the db container, along with any users added to the table<br>
+
+<br>
 
 
 
