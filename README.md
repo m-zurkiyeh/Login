@@ -117,7 +117,8 @@ DB_PORT = 3306
 DB_NAME= "user_db"
 DB_USERNAME
 DB_PASSWORD
-ROOT_PASSWORD # (Not necessarily needed, unless you plan on running the application in Docker)
+ROOT_PASSWORD # (Optional, unless you plan on running the application in Docker)
+FLASK_SECRET_KEY #(Optional, the program will generate a random key that is not stored in the .env)
 ```
 
 ### Linux

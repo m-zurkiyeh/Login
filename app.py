@@ -1,3 +1,4 @@
+import os,secrets
 from dotenv import load_dotenv
 from flask import (
     Flask,
@@ -11,23 +12,33 @@ from flask import (
 )
 from db_manager import db_manager
 from forms import *
-from dotenv_config import *
 
+load_dotenv()
 
-secret_key = init_dotenv()
+def check_env_for_key() -> str:
+        """
+        Checks .env file for secret key variable, creating a key if not found
 
+        """
+        key = ""
+        
+        if os.getenv('FLASK_SECRET_KEY') is not None:
+            return os.getenv('FLASK_SECRET_KEY')
+        else:
+            print("WARNING: A key was not found in .env, Generating temporary random key")
+            key = secrets.token_hex(64)
+            return key
 
+secret_key = check_env_for_key()
 
 
 app = Flask("app", static_folder='static',template_folder='templates')      
 dbm = db_manager()
 
-print(secret_key)
-print("Key after init")
-app.config["SECRET_KEY"] = secret_key
-print(app.config["SECRET_KEY"])
 
-            
+app.config["SECRET_KEY"] = secret_key
+
+    
 
 class connector:
 
@@ -114,23 +125,6 @@ class connector:
     def get_user(user_id):
         row = dbm.get_user_by_id(user_id)
         return jsonify(row), 200
-    
-    # @app.after_request
-    # def after(response):
-    # # todo with response
-    #     print("after request")
-    #     print(response.status)
-    #     print(response.headers)
-    #     print(response.get_data())
-    #     return response
-
-    # @app.before_request
-    # def before():
-    # # todo with request
-    # # e.g. print request.headers
-    #     print("before request")
-    #     pass
-    
     
     
     if __name__ == '__main__':
