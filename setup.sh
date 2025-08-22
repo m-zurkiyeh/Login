@@ -5,10 +5,5 @@ if (( $EUID != 0)); then
     exit
 fi
 
-apt update && upgrade
-apt install gcc
-apt install curl
-apt install openssl
-apt install mariadb-server
-apt install libmariadb3 libmariadb-dev
-apt install python3 python3-pip ipython3 python3-dev python3-venv
+apt-get update && apt-get upgrade
+apt-get install -y --no-install-recommends gcc curl openssl mariadb-server libmariadb3 libmariadb-dev python3 python3-pip ipython3 python3-dev python3-venv gunicorn pkg-config

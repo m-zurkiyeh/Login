@@ -38,7 +38,7 @@ A RESTful API simulating a Login Page written in Python using the Flask Framewor
 
 
 
-### Windows (Chocolatey)
+### Windows (WIP)
 
 >[!IMPORTANT]
 > Instructions for windows installation are incomplete at the moment, more instructions will be coming soon
@@ -56,7 +56,7 @@ A RESTful API simulating a Login Page written in Python using the Flask Framewor
 </div>
 
 </br>
-
+**Keep in mind that the location of the specified paths will vary depending on where they are installed**
 
 
 
@@ -78,7 +78,6 @@ $ chmod +x setup.sh
 sudo ./setup.sh
 ```
 
-**Keep in mind that the location of the specified paths will vary depending on where they are installed**
 
 3. Create the database and table using the provided .sql file, 
 ``` console
@@ -170,16 +169,13 @@ docker restart login-app-1
 >[!IMPORTANT]
 > The restart commands must be run individually from top to bottom <br>
 
-To delete the containers, run: <br> <br>
+To delete the containers, run:<br>
 ```console
 docker comopse down
 ```
 
 >[!CAUTION]
 > Doing this will delete the db container, along with any users added to the table<br>
-
-<br>
-
 
 
 ### Accessing the database
@@ -196,13 +192,11 @@ mariadb -u <env username> -p <env password>
 ```
 <br>
 
-#### Windows and Linux
 
 To display the users:
 ``` sql
 select email,fname,lname from users;
 ```
-
 <br>
 
 **To Terminate the application, CTRL+C for Windows and Linux, and "docker compose down " for docker**

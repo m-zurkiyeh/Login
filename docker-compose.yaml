@@ -11,6 +11,7 @@ services:
           - DB_PASSWORD=${DB_PASSWORD}
           - DB=user_db
           - DB_PORT=3306
+          - FLASK_ENV:production
       ports:
           - 5000:5000
       env_file:
@@ -26,7 +27,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      #- mariadb_data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
       - ./users.sql:/docker-entrypoint-initdb.d/users.sql
     healthcheck:
       test: "mariadb $$MYSQL_DATABASE -uroot -p$$MYSQL_ROOT_PASSWORD -e 'SELECT 1;'"
@@ -38,5 +39,5 @@ services:
 
 
 volumes:
-  mariadb_data:
+  mariadb-data:
     driver: local

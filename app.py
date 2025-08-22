@@ -50,13 +50,15 @@ class connector:
         self -- the class's own instance
 
         """
-        app.run(host='0.0.0.0', port=5000, debug=True)
+        
+        print("\nWelcome to my Login Application!\nYou can find the API running at:\n127.0.0.1:5000/ ")
+        from waitress import serve
+        serve(app,host='0.0.0.0', port=5000)
 
 
     @app.route("/",methods=["GET","POST"])
     def login():
         li = Log_In()
-        message = ""
         if li.is_submitted():
             email = li.email.data
             password = li.password.data
