@@ -9,7 +9,7 @@ services:
           - DB_HOST=db
           - DB_USER=${DB_USERNAME}
           - DB_PASSWORD=${DB_PASSWORD}
-          - DB=user_db
+          - DB=user-db
           - DB_PORT=3306
           - FLASK_ENV:production
       ports:
@@ -23,7 +23,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD-root}
-      MYSQL_DATABASE: user_db
+      MYSQL_DATABASE: user-db
     ports:
       - "3306:3306"
     volumes:

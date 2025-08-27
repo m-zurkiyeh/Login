@@ -8,25 +8,15 @@ WORKDIR /login
 ENV PIP_ROOT_USER_ACTION=ignore
 
 
-RUN apt-get update && apt-get install -y  --no-install-recommends \
-    python3-pip \
-    gcc \
-    pkg-config \
-    default-libmysqlclient-dev \
-    libmariadb3 \
-    libmariadb-dev \
-    gunicorn \ 
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
-
+COPY . .
+RUN chmod +x setup.sh
+RUN ./setup.sh
 
 RUN useradd -m myuser
 USER myuser
 
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-COPY . .
 
 EXPOSE 5000
 
