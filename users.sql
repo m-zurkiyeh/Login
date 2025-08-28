@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS user-db;
-use user-db
+CREATE DATABASE IF NOT EXISTS user_db;
+use user_db
 
 CREATE TABLE IF NOT EXISTS users (
   id int NOT NULL AUTO_INCREMENT,

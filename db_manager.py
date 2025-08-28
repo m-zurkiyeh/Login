@@ -1,4 +1,4 @@
-import mysql.connector, argon2, re, os
+import mariadb, argon2, re, os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -34,8 +34,8 @@ class db_manager:
         """
     
         try:
-            self.conn = mysql.connector.connect(**CONNECTION_SETTINGS)
-        except mysql.Error as e:
+            self.conn = mariadb.connect(**CONNECTION_SETTINGS)
+        except mariadb.Error as e:
             #print("An error has occurred while connecting to the database.\nPlease check the inputted credentials and try again.")
             print(e)
             exit()
