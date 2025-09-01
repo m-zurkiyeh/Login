@@ -15,7 +15,7 @@ RUN ./setup.sh
 RUN useradd -m myuser
 USER myuser
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install wheel && pip install --no-cache-dir -r requirements.txt
 
 
 EXPOSE 5000
