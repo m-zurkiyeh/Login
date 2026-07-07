@@ -1,4 +1,4 @@
-import mariadb, argon2, re, os
+import mariadb, argon2, re, os # pyright: ignore[reportMissingImports]
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -8,7 +8,7 @@ CONNECTION_SETTINGS = {
     "port": int(os.getenv("DB_PORT",3306)),
     "user": os.getenv("DB_USERNAME"),
     "password": os.getenv("DB_PASSWORD"),
-    "database": os.getenv("DB"),
+    "database": os.getenv("DB_NAME"),
 }
 
 
@@ -34,13 +34,24 @@ class db_manager:
         """
     
         try:
+            print(CONNECTION_SETTINGS["database"])
             self.conn = mariadb.connect(**CONNECTION_SETTINGS)
+            
         except mariadb.Error as e:
             #print("An error has occurred while connecting to the database.\nPlease check the inputted credentials and try again.")
             print(e)
             exit()
         
         self.mycursor = self.conn.cursor()
+
+        self.mycursor.execute("""CREATE TABLE IF NOT EXISTS users(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) NOT NULL,
+                fname VARCHAR(255) NOT NULL,
+                lname VARCHAR(255) NOT NULL,
+                password VARCHAR(255) NOT NULL
+                                  )""")
+        
 
     def add_to_table(self, email, fname, lname, passwd):
         """

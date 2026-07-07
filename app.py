@@ -1,6 +1,6 @@
 import os,secrets
 from dotenv import load_dotenv
-from flask import (
+from flask import ( # pyright: ignore[reportMissingImports]
     Flask,
     session,
     request,
